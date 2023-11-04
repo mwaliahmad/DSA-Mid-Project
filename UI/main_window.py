@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
     model = []
     levels = []
     result = []
-    stats = [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1]]
+    stats = []
     search_time = None
 
     def setupUi(self, MainWindow):
