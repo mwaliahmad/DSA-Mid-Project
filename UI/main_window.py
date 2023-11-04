@@ -7,19 +7,21 @@ import time
 import pandas as pd
 import os
 import emoji
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
 
-sys.path.append("../2022-cs-65dsamidproject")
+sys.path.append("../ProjectUpdate")
 
 from utils.load_data import load_data
 from UI import search_result
 from UI import level
-from model.video import video
 from model.VideoTableModel import VideoTableModel
 from model.ScrapeThread import ScraperThread
-import sortingAlgorithms as sort_algo
+from model.StatThread import StatThread
 
 
 class Ui_MainWindow(object):
@@ -28,6 +30,7 @@ class Ui_MainWindow(object):
     model = []
     levels = []
     result = []
+    stats = [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1]]
     search_time = None
 
     def setupUi(self, MainWindow):
@@ -629,6 +632,7 @@ class Ui_MainWindow(object):
         self.stop_btn.clicked.connect(self.stop_scraping)
         self.search_btn.clicked.connect(self.lets_search)
         self.reset_btn.clicked.connect(self.reset)
+        self.stat_btn_2.clicked.connect(self.show_graphs)
 
         # load data
         self.data = load_data()
@@ -636,6 +640,7 @@ class Ui_MainWindow(object):
 
     def reset(self):
         self.search_btn.setEnabled(True)
+        self.lets_sort.setEnabled(True)
         self.data = load_data()
         self.model.reset_data(self.data)
 
@@ -685,6 +690,7 @@ class Ui_MainWindow(object):
                 time_end = time.time()
                 self.time_lbl.setText(str(time_end - time_start))
             self.tableView.setModel(self.model)
+            self.lets_sort.setEnabled(False)
 
     def start_scraping(self):
         self.start_btn.setEnabled(False)
@@ -803,6 +809,7 @@ class Ui_MainWindow(object):
                 time_end = time.time()
                 self.time_lbl.setText(str(time_end - time_start))
             self.tableView.setModel(self.model)
+            self.levels = []
 
     def show_searching_result(self):
         self.window = QtWidgets.QMainWindow()
@@ -835,20 +842,20 @@ class Ui_MainWindow(object):
 
             if col != "--Select Column--":
                 self.result = self.model.search_by(
-                0,
-                len(self.data) - 1,
-                algo,
-                target,
-                filter,
-                col,
-            )
+                    0,
+                    len(self.data) - 1,
+                    algo,
+                    target,
+                    filter,
+                    col,
+                )
             else:
                 self.result = self.model.search_multicolumn(
-                0,
-                len(self.data) - 1,
-                algo,
-                target,
-                filter,
+                    0,
+                    len(self.data) - 1,
+                    algo,
+                    target,
+                    filter,
                 )
 
             end_time = time.time()
@@ -881,6 +888,55 @@ class Ui_MainWindow(object):
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(3, QHeaderView.Stretch)
         self.tableView.setColumnWidth(0, 200)
+
+    def show_graphs(self):
+        if self.url1_tb.text() == "" or self.url2_tb.text() == "":
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setText("Enter the URLs ")
+            msg.setWindowTitle("Warning")
+            msg.setStandardButtons(QMessageBox.Ok)
+            retval = msg.exec_()
+        else:
+            urls = [self.url1_tb.text(), self.url2_tb.text()]
+            time.sleep(3)
+            self.thread = StatThread(urls)
+            self.stats = self.thread.run()
+            self.display_graphs()
+
+    def display_graphs(self):
+        # Create sample data for the bar graphs
+        categories = [
+            "Video 1",
+            "Video 2",
+        ]
+
+        # Create Matplotlib figures and add bar plots
+        fig, axs = plt.subplots(2, 3, figsize=(12, 4), constrained_layout=True)
+
+        axs[0, 0].bar(categories, [self.stats[0][0], self.stats[1][0]])
+        axs[0, 0].set_title("Subscribers")
+
+        axs[0, 1].bar(categories, [self.stats[0][3], self.stats[1][3]])
+        axs[0, 1].set_title("Views")
+
+        axs[0, 2].bar(categories, [self.stats[0][1], self.stats[1][1]])
+        axs[0, 2].set_title("Likes")
+
+        axs[1, 0].bar(categories, [self.stats[0][4], self.stats[1][4]])
+        axs[1, 0].set_title("Comments")
+
+        axs[1, 1].bar(categories, [self.stats[0][2], self.stats[1][2]])
+        axs[1, 1].set_title("Duration")
+
+        # Embed Matplotlib figure into a PyQt5 frame
+        canvas = FigureCanvas(fig)
+
+        self.graph_window = QMainWindow()
+        self.graph_window.setCentralWidget(canvas)
+        self.graph_window.setGeometry(200, 200, 1000, 600)
+        self.graph_window.setWindowTitle("Graphs Window")
+        self.graph_window.show()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
