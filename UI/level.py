@@ -1,0 +1,180 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+
+
+class Ui_MainWindow(object):
+    lvl_window = None
+
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(491, 241)
+        MainWindow.setMinimumSize(QtCore.QSize(100, 200))
+        self.lvl_window = MainWindow
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono NL SemiBold")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        MainWindow.setFont(font)
+        MainWindow.setAutoFillBackground(False)
+        MainWindow.setStyleSheet(
+            "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 2, 0, 255), stop:1 rgba(0, 0, 0, 255));"
+        )
+        MainWindow.setDockNestingEnabled(False)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.lvl1_cb = QtWidgets.QComboBox(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono NL SemiBold")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.lvl1_cb.setFont(font)
+        self.lvl1_cb.setObjectName("lvl1_cb")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.addItem("")
+        self.lvl1_cb.setCurrentText("")
+        self.verticalLayout.addWidget(self.lvl1_cb)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
+        self.lvl2_cb = QtWidgets.QComboBox(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono NL SemiBold")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.lvl2_cb.setFont(font)
+        self.lvl2_cb.setObjectName("lvl2_cb")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.lvl2_cb.addItem("")
+        self.verticalLayout.addWidget(self.lvl2_cb)
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout.addWidget(self.label_3)
+        self.lvl3_cb = QtWidgets.QComboBox(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono NL SemiBold")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.lvl3_cb.setFont(font)
+        self.lvl3_cb.setObjectName("lvl3_cb")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.lvl3_cb.addItem("")
+        self.verticalLayout.addWidget(self.lvl3_cb)
+        self.ok_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.ok_btn.setMinimumSize(QtCore.QSize(100, 30))
+        font = QtGui.QFont()
+        font.setFamily("JetBrains Mono NL SemiBold")
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.ok_btn.setFont(font)
+        self.ok_btn.setStyleSheet(
+            "QPushButton {\n"
+            "border-radius: 10px;\n"
+            "\n"
+            "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(111, 111, 111, 255), stop:1 rgba(255, 255, 255, 255));\n"
+            "        }\n"
+            "\n"
+            "QPushButton:hover {\n"
+            "    color: red;\n"
+            "        }\n"
+            "QPushButton:pressed {\n"
+            "    color: red;\n"
+            "background-color:rgb(255, 255, 255)\n"
+            "        }\n"
+            ""
+        )
+        self.ok_btn.setObjectName("ok_btn")
+        self.verticalLayout.addWidget(self.ok_btn, 0, QtCore.Qt.AlignHCenter)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def hide(self):
+        self.lvl_window.close()
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "TubeHarvest"))
+
+        self.label.setText(_translate("MainWindow", "Select Level 1"))
+        self.lvl1_cb.setItemText(0, _translate("MainWindow", "--Select--"))
+        self.lvl1_cb.setItemText(1, _translate("MainWindow", "URL"))
+        self.lvl1_cb.setItemText(2, _translate("MainWindow", "Title"))
+        self.lvl1_cb.setItemText(3, _translate("MainWindow", "Channel Name"))
+        self.lvl1_cb.setItemText(4, _translate("MainWindow", "Subscribers"))
+        self.lvl1_cb.setItemText(5, _translate("MainWindow", "Likes"))
+        self.lvl1_cb.setItemText(6, _translate("MainWindow", "Views"))
+        self.lvl1_cb.setItemText(7, _translate("MainWindow", "Duration"))
+        self.lvl1_cb.setItemText(8, _translate("MainWindow", "Comments"))
+
+        self.label_2.setText(_translate("MainWindow", "Select Level 2"))
+        self.lvl2_cb.setItemText(0, _translate("MainWindow", "--Select--"))
+        self.lvl2_cb.setItemText(1, _translate("MainWindow", "URL"))
+        self.lvl2_cb.setItemText(2, _translate("MainWindow", "Title"))
+        self.lvl2_cb.setItemText(3, _translate("MainWindow", "Channel Name"))
+        self.lvl2_cb.setItemText(4, _translate("MainWindow", "Subscribers"))
+        self.lvl2_cb.setItemText(5, _translate("MainWindow", "Likes"))
+        self.lvl2_cb.setItemText(6, _translate("MainWindow", "Views"))
+        self.lvl2_cb.setItemText(7, _translate("MainWindow", "Duration"))
+        self.lvl2_cb.setItemText(8, _translate("MainWindow", "Comments"))
+
+        self.label_3.setText(_translate("MainWindow", "Select Level 3"))
+        self.lvl3_cb.setItemText(0, _translate("MainWindow", "--Select--"))
+        self.lvl3_cb.setItemText(1, _translate("MainWindow", "URL"))
+        self.lvl3_cb.setItemText(2, _translate("MainWindow", "Title"))
+        self.lvl3_cb.setItemText(3, _translate("MainWindow", "Channel Name"))
+        self.lvl3_cb.setItemText(4, _translate("MainWindow", "Subscribers"))
+        self.lvl3_cb.setItemText(5, _translate("MainWindow", "Likes"))
+        self.lvl3_cb.setItemText(6, _translate("MainWindow", "Views"))
+        self.lvl3_cb.setItemText(7, _translate("MainWindow", "Duration"))
+        self.lvl3_cb.setItemText(8, _translate("MainWindow", "Comments"))
+        self.ok_btn.setText(_translate("MainWindow", "OK"))
