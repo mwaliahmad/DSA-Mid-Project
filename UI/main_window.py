@@ -4,14 +4,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
 import sys
 import time
-import pandas as pd
-import os
-import emoji
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget
-from selenium import webdriver
-from bs4 import BeautifulSoup
+from PyQt5.QtWidgets import QMainWindow
 
 
 sys.path.append("../DSA-MID-PROJECT")
