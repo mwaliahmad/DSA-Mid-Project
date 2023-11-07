@@ -1,9 +1,6 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from PyQt5.QtGui import QIcon
 import sys
-import time
 
 sys.path.append("../2022-cs-65dsamidproject")
 
@@ -177,17 +174,10 @@ class VideoTableModel(QAbstractTableModel):
             result = search_algo.linearSearch(
                 self._data, 0, end, target, filter, key_function
             )
-        elif algo == "Binary Search":
-            result = search_algo.binary_search(
-                self._data, start, end, target, filter, key_function
-            )
         elif algo == "Jump Search":
+            self.data = self.sort_by(start, end, key, "Merge Sort", True)
             result = search_algo.jump_search(
-                self._data, start, end, target, filter, key_function
-            )
-        elif algo == "Exponential Search":
-            result = search_algo.exponential_search(
-                self._data, start, end, target, filter, key_function
+                self.data, start, end, target, filter, key_function
             )
         return result
     
@@ -198,12 +188,12 @@ class VideoTableModel(QAbstractTableModel):
         try:
             target = int(target)
             i = 0
-            while len(result) == 0:
+            while len(result) == 0 and i < 5:
                 result = self.search_by(start, end, algo, target, filter, int_columns[i])
                 i +=1
         except:
             i = 0
-            while len(result) == 0:
+            while len(result) == 0 and i < 3:
                 result = self.search_by(start, end, algo, target, filter, string_columns[i])
                 i +=1
         return result

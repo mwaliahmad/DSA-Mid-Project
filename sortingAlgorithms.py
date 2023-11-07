@@ -122,8 +122,9 @@ def quick_sort(array, start, end, key):
 
 
 def partition(array, start, end, key):
-    random_indx = random.randint(start + 1, end)
-    array[random_indx], array[end] = array[end], array[random_indx]
+    random_idx = random.randint(start+1,end)
+    array[random_idx], array[end] = array[end], array[random_idx]
+    
     pivot = key(array[end])
     i = start - 1
     for j in range(start, end):

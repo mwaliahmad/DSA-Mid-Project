@@ -4,17 +4,12 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
 import sys
 import time
-import pandas as pd
-import os
-import emoji
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QWidget
-from selenium import webdriver
-from bs4 import BeautifulSoup
+from PyQt5.QtWidgets import QMainWindow
 
 
-sys.path.append("../ProjectUpdate")
+sys.path.append("../DSA-MID-PROJECT")
 
 from utils.load_data import load_data
 from UI import search_result
@@ -871,6 +866,7 @@ class Ui_MainWindow(object):
                 self.show_searching_result()
             else:
                 self.model.reset_data(self.result)
+                self.label.setText(self.search_time)
 
     def set_data(self, data):
         header = [
@@ -912,22 +908,19 @@ class Ui_MainWindow(object):
         ]
 
         # Create Matplotlib figures and add bar plots
-        fig, axs = plt.subplots(2, 3, figsize=(12, 4), constrained_layout=True)
+        fig, axs = plt.subplots(2, 2, figsize=(12, 4), constrained_layout=True)
+        time.sleep(3)
+        axs[0,0].bar(categories, [self.stats[0][0], self.stats[1][0]])
+        axs[0,0].set_title("Subscribers")
 
-        axs[0, 0].bar(categories, [self.stats[0][0], self.stats[1][0]])
-        axs[0, 0].set_title("Subscribers")
+        axs[0,1].bar(categories, [self.stats[0][2], self.stats[1][2]])
+        axs[0,1].set_title("Views")
 
-        axs[0, 1].bar(categories, [self.stats[0][3], self.stats[1][3]])
-        axs[0, 1].set_title("Views")
+        axs[1,0].bar(categories, [self.stats[0][3], self.stats[1][3]])
+        axs[1,0].set_title("Comments")
 
-        axs[0, 2].bar(categories, [self.stats[0][1], self.stats[1][1]])
-        axs[0, 2].set_title("Likes")
-
-        axs[1, 0].bar(categories, [self.stats[0][4], self.stats[1][4]])
-        axs[1, 0].set_title("Comments")
-
-        axs[1, 1].bar(categories, [self.stats[0][2], self.stats[1][2]])
-        axs[1, 1].set_title("Duration")
+        axs[1,1].bar(categories, [self.stats[0][1], self.stats[1][1]])
+        axs[1,1].set_title("Duration")
 
         # Embed Matplotlib figure into a PyQt5 frame
         canvas = FigureCanvas(fig)
