@@ -41,7 +41,9 @@ def linearSearch(array, start, end, target, filter, key):
 
 
 
-################################################################################
+##########################################################################
+
+
 def binary_search_equals(array, start, end, target, key):
     result = []
     while start <= end:
@@ -60,7 +62,7 @@ def binary_search_equals(array, start, end, target, key):
                 result.append(array[right_idx])
                 right_idx += 1
             return result
-        elif target < key(array[mid]):
+        elif target < str(key(array[mid])):
             end = mid - 1
         else:
             start = mid + 1
@@ -71,7 +73,7 @@ def binary_search_contains(array, start, end, target, key):
 
     while start <= end:
         mid = start + (end - start) // 2
-        element = key(array[mid])
+        element = str(key(array[mid]))
         
         if str(target) in str(element):
             # Continue searching to the left for more matches
@@ -99,7 +101,7 @@ def binary_search_startswith(array, start, end, target, key):
     
     while start <= end:
         mid = start + (end - start) // 2
-        element = key(array[mid])
+        element = str(key(array[mid]))
 
         if element.startswith(target):
             # Continue searching to the left for more matches
@@ -122,7 +124,7 @@ def binary_search_endswith(array, start, end, target, key):
 
     while start <= end:
         mid = start + (end - start) // 2
-        element = key(array[mid])
+        element = str(key(array[mid]))
 
         if element.endswith(target):
             # Continue searching to the right for more matches
@@ -143,39 +145,48 @@ def binary_search_endswith(array, start, end, target, key):
 
 def binary_search(array, start, end, target, filter, key):
     if filter == "--Select filter--":
-        return binary_search_equals(array, start, end, target, key)
+        return binary_search_equals(array, start, end, target, filter, key)
     if filter == "Contains":
-        return binary_search_contains(array, start, end, target, key)
+        return binary_search_contains(array, start, end, target, filter, key)
     elif filter == "Starts With":
-        return binary_search_startswith(array, start, end, target, key)
+        return binary_search_startswith(array, start, end, target, filter, key)
     elif filter == "Ends With":
-        return binary_search_endswith(array, start, end, target, key)
+        return binary_search_endswith(array, start, end, target, filter, key)
     
-
 
 
 
 ##########################################################################
 def jump_search_equals(array, start, end, target, key):
     results = []
-    step = int(sqrt(end-start+1))        
-    # Find the block containing the target
-    for i in range(start, end, step):
-        if key(array[i]) == target:
-            results.append(array[i])  # Add matching element to results list
-        elif key(array[i]) > target:
-            for j in range(i - step, i):
-                if key(array[j]) == target:
-                    results.append(array[j])  # Add matching element to results list
+    step = int(sqrt(end - start + 1))
 
-    return results  
+    # Find the block containing the target
+    i = start
+    while i <= end:
+        if str(key(array[i])) == target:
+            results.append(array[i])  # Add matching element to results list
+            i += 1
+        elif str(key(array[i])) > target:
+            break
+        else:
+            i += step
+
+    # Perform a linear search within the block
+    for j in range(max(i - step, start), i):
+        if j >= start and j <= end and str(key(array[j])) == target:
+            results.append(array[j])  # Add matching element to results list
+
+    return results
+
+
 
 def jump_search_contains(array, start, end, target, key):
     results = []
     step = int(sqrt(end - start + 1))
     # Find the block containing the target
     for i in range(start, end, step):
-        if target in key(array[i]):
+        if target in str(key(array[i])):
             results.append(array[i])  # Add matching element to results list
 
     return results
@@ -185,7 +196,7 @@ def jump_search_startswith(array, start, end, target, key):
     step = int(sqrt(end - start + 1))
     # Find the block containing the target
     for i in range(start, end, step):
-        if key(array[i]).startswith(target):
+        if str(key(array[i])).startswith(target):
             results.append(array[i])  # Add matching element to results list
 
     return results
@@ -195,7 +206,7 @@ def jump_search_endswith(array, start, end, target, key):
     step = int(sqrt(end - start + 1))
     # Find the block containing the target
     for i in range(start, end, step):
-        if key(array[i]).endswith(target):
+        if str(key(array[i])).endswith(target):
             results.append(array[i])  # Add matching element to results list
 
     return results
@@ -209,72 +220,3 @@ def jump_search(array, start, end, target, filter, key):
         return jump_search_startswith(array, start, end, target, key)
     elif filter == "Ends With":
         return jump_search_endswith(array, start, end, target, key)
-
-
-
-    
-##########################################################################
-def exp_search_equals(array, start, end, target, key):
-    if array[0] == target:
-        return array[0]
-    n = end-start+1
-    i = 1
-    while key(array[i]) <= target and i < n:
-        i *= 2
-    return binary_search_equals(array, i//2, min(i,n-1), target, key)
-
-def exp_search_contains(array, start, end, target, key):
-    results = []
-    n = end - start + 1
-    i = 1
-    while i < n and key(array[i]) <= target:
-        if target in key(array[i]):
-            results.append(array[i])
-        i *= 2
-    left = i // 2
-    right = min(i, n - 1)
-    binary_search_results = binary_search_contains(array, left, right, target, key)
-    results.extend(binary_search_results)
-
-    return results
-
-def exp_search_startswith(array, start, end, target, key):
-    results = []
-
-    n = end - start + 1
-    i = 1
-    while i < n and key(array[i]) <= target:
-        if key(array[i]).startswith(target):
-            results.append(array[i])
-        i *= 2
-    left = i // 2
-    right = min(i, n - 1)
-    binary_search_results = binary_search_startswith(array, left, right, target, key)
-    results.extend(binary_search_results)
-
-    return results
-
-def exp_search_endswith(array, start, end, target, key):
-    results = []
-    n = end - start + 1
-    i = 1
-    while i < n and key(array[i]) <= target:
-        if key(array[i]).endswith(target):
-            results.append(array[i])
-        i *= 2
-    left = i // 2
-    right = min(i, n - 1)
-    binary_search_results = binary_search_endswith(array, left, right, target, key)
-    results.extend(binary_search_results)
-
-    return results
-
-def exponential_search(array, start, end, target, filter, key):
-    if filter == "--Select filter--":
-        return exp_search_equals(array, start, end, target, key)
-    if filter == "Contains":
-        return exp_search_contains(array, start, end, target, key)
-    elif filter == "Starts With":
-        return exp_search_startswith(array, start, end, target, key)
-    elif filter == "Ends With":
-        return exp_search_endswith(array, start, end, target, key)

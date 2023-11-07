@@ -177,17 +177,10 @@ class VideoTableModel(QAbstractTableModel):
             result = search_algo.linearSearch(
                 self._data, 0, end, target, filter, key_function
             )
-        elif algo == "Binary Search":
-            result = search_algo.binary_search(
-                self._data, start, end, target, filter, key_function
-            )
         elif algo == "Jump Search":
+            self.data = self.sort_by(start, end, key, "Merge Sort", True)
             result = search_algo.jump_search(
-                self._data, start, end, target, filter, key_function
-            )
-        elif algo == "Exponential Search":
-            result = search_algo.exponential_search(
-                self._data, start, end, target, filter, key_function
+                self.data, start, end, target, filter, key_function
             )
         return result
     

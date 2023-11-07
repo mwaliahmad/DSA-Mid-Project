@@ -30,7 +30,7 @@ class StatThread(QThread):
             time.sleep(1)
 
     def extract_count_with_suffix(self, count_text):
-        try:
+        try:        
             if "K" in count_text:
                 like_count = int(float(count_text.replace("K", "").strip()) * 1000)
             elif "M" in count_text:
@@ -67,16 +67,6 @@ class StatThread(QThread):
             sub_count = 0
 
         try:
-            like_count_text = (
-                soup.find("div", {"id": "segmented-like-button"})
-                .find("span", {"class": "yt-core-attributed-string"})
-                .text
-            )
-            like_count = self.extract_count_with_suffix(like_count_text)
-        except AttributeError:
-            like_count = 0
-
-        try:
             comment_count_text = soup.find(
                 "yt-formatted-string",
                 {"class": "count-text style-scope ytd-comments-header-renderer"},
@@ -103,7 +93,6 @@ class StatThread(QThread):
 
         video_data = [
             sub_count,
-            like_count,
             self.Duration_conversion(duration),
             view_count,
             comment_count,
