@@ -179,8 +179,18 @@ class VideoTableModel(QAbstractTableModel):
             result = search_algo.jump_search(
                 self.data, start, end, target, filter, key_function
             )
+        elif algo == "Binary Search":
+            self.data = self.sort_by(start, end, key, "Merge Sort", True)
+            result = search_algo.jump_search(
+                self.data, start, end, target, filter, key_function
+            )
+        elif algo == "Exponential Search":
+            self.data = self.sort_by(start, end, key, "Merge Sort", True)
+            result = search_algo.jump_search(
+                self.data, start, end, target, filter, key_function
+            )
         return result
-    
+
     def search_multicolumn(self, start, end, algo, target, filter):
         result = []
         int_columns = ["Subscribers", "Likes", "Duration", "Views", "Comments"]
@@ -189,12 +199,15 @@ class VideoTableModel(QAbstractTableModel):
             target = int(target)
             i = 0
             while len(result) == 0 and i < 5:
-                result = self.search_by(start, end, algo, target, filter, int_columns[i])
-                i +=1
+                result = self.search_by(
+                    start, end, algo, target, filter, int_columns[i]
+                )
+                i += 1
         except:
             i = 0
             while len(result) == 0 and i < 3:
-                result = self.search_by(start, end, algo, target, filter, string_columns[i])
-                i +=1
+                result = self.search_by(
+                    start, end, algo, target, filter, string_columns[i]
+                )
+                i += 1
         return result
-

@@ -1,29 +1,34 @@
 from math import sqrt
+
+
 ###############################################################################
 def linear_search_equals(array, start, end, target, key):
     result = []
-    for i in range(start, end+1):
+    for i in range(start, end + 1):
         if str(key(array[i])) == str(target):
-            result.append(array[i])   
-    return result          
+            result.append(array[i])
+    return result
+
 
 def linear_search_contains(array, start, end, target, key):
     result = []
-    for i in range(start, end+1):
+    for i in range(start, end + 1):
         if str(target) in str(key(array[i])):
-            result.append(array[i])   
-    return result 
+            result.append(array[i])
+    return result
+
 
 def linear_search_startswith(array, start, end, target, key):
     result = []
-    for i in range(start, end+1):
+    for i in range(start, end + 1):
         if str(key(array[i])).startswith(str(target)):
             result.append(array[i])
     return result
 
+
 def linear_search_endswith(array, start, end, target, key):
     result = []
-    for i in range(start, end+1):
+    for i in range(start, end + 1):
         if str(key(array[i])).endswith(str(target)):
             result.append(array[i])
     return result
@@ -38,7 +43,6 @@ def linearSearch(array, start, end, target, filter, key):
         return linear_search_startswith(array, start, end, target, key)
     elif filter == "Ends With":
         return linear_search_endswith(array, start, end, target, key)
-
 
 
 ##########################################################################
@@ -68,13 +72,14 @@ def binary_search_equals(array, start, end, target, key):
             start = mid + 1
     return result  # No matches found
 
+
 def binary_search_contains(array, start, end, target, key):
     result = []
 
     while start <= end:
         mid = start + (end - start) // 2
         element = str(key(array[mid]))
-        
+
         if str(target) in str(element):
             # Continue searching to the left for more matches
             left_idx = mid - 1
@@ -96,9 +101,10 @@ def binary_search_contains(array, start, end, target, key):
 
     return result
 
+
 def binary_search_startswith(array, start, end, target, key):
     result = []
-    
+
     while start <= end:
         mid = start + (end - start) // 2
         element = str(key(array[mid]))
@@ -118,6 +124,7 @@ def binary_search_startswith(array, start, end, target, key):
             start = mid + 1
 
     return result
+
 
 def binary_search_endswith(array, start, end, target, key):
     result = []
@@ -152,8 +159,6 @@ def binary_search(array, start, end, target, filter, key):
         return binary_search_startswith(array, start, end, target, filter, key)
     elif filter == "Ends With":
         return binary_search_endswith(array, start, end, target, filter, key)
-    
-
 
 
 ##########################################################################
@@ -180,7 +185,6 @@ def jump_search_equals(array, start, end, target, key):
     return results
 
 
-
 def jump_search_contains(array, start, end, target, key):
     results = []
     step = int(sqrt(end - start + 1))
@@ -190,6 +194,7 @@ def jump_search_contains(array, start, end, target, key):
             results.append(array[i])  # Add matching element to results list
 
     return results
+
 
 def jump_search_startswith(array, start, end, target, key):
     results = []
@@ -201,6 +206,7 @@ def jump_search_startswith(array, start, end, target, key):
 
     return results
 
+
 def jump_search_endswith(array, start, end, target, key):
     results = []
     step = int(sqrt(end - start + 1))
@@ -211,6 +217,7 @@ def jump_search_endswith(array, start, end, target, key):
 
     return results
 
+
 def jump_search(array, start, end, target, filter, key):
     if filter == "--Select filter--":
         return jump_search_equals(array, start, end, target, key)
@@ -220,3 +227,73 @@ def jump_search(array, start, end, target, filter, key):
         return jump_search_startswith(array, start, end, target, key)
     elif filter == "Ends With":
         return jump_search_endswith(array, start, end, target, key)
+
+
+def exp_search_equals(array, start, end, target, key):
+    if array[0] == target:
+        return array[0]
+    n = end - start + 1
+    i = 1
+    while key(array[i]) <= target and i < n:
+        i *= 2
+    return binary_search_equals(array, i // 2, min(i, n - 1), target, key)
+
+
+def exp_search_contains(array, start, end, target, key):
+    results = []
+    n = end - start + 1
+    i = 1
+    while i < n and key(array[i]) <= target:
+        if target in key(array[i]):
+            results.append(array[i])
+        i *= 2
+    left = i // 2
+    right = min(i, n - 1)
+    binary_search_results = binary_search_contains(array, left, right, target, key)
+    results.extend(binary_search_results)
+
+    return results
+
+
+def exp_search_startswith(array, start, end, target, key):
+    results = []
+
+    n = end - start + 1
+    i = 1
+    while i < n and key(array[i]) <= target:
+        if key(array[i]).startswith(target):
+            results.append(array[i])
+        i *= 2
+    left = i // 2
+    right = min(i, n - 1)
+    binary_search_results = binary_search_startswith(array, left, right, target, key)
+    results.extend(binary_search_results)
+
+    return results
+
+
+def exp_search_endswith(array, start, end, target, key):
+    results = []
+    n = end - start + 1
+    i = 1
+    while i < n and key(array[i]) <= target:
+        if key(array[i]).endswith(target):
+            results.append(array[i])
+        i *= 2
+    left = i // 2
+    right = min(i, n - 1)
+    binary_search_results = binary_search_endswith(array, left, right, target, key)
+    results.extend(binary_search_results)
+
+    return results
+
+
+def exponential_search(array, start, end, target, filter, key):
+    if filter == "--Select filter--":
+        return exp_search_equals(array, start, end, target, filter, key)
+    if filter == "Contains":
+        return exp_search_contains(array, start, end, target, filter, key)
+    elif filter == "Starts With":
+        return exp_search_startswith(array, start, end, target, filter, key)
+    elif filter == "Ends With":
+        return exp_search_endswith(array, start, end, target, filter, key)
