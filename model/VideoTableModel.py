@@ -119,7 +119,7 @@ class VideoTableModel(QAbstractTableModel):
                 end=end,
                 key=key_function,
             )
-        elif algo == "Pigeonhole Sort":
+        elif algo == "PigeonHole Sort":
             sort_algo.pigeonhole_sort(
                 self._data,
                 start=start,

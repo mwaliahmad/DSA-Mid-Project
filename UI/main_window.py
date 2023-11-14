@@ -9,7 +9,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtWidgets import QMainWindow
 
 
-sys.path.append("../DSA-MID-PROJECT")
+sys.path.append("../ProjectUpdate")
 
 from utils.load_data import load_data
 from UI import search_result
